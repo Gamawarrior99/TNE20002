@@ -1,0 +1,8 @@
+
+no ip access-list extended ACLVLAN70
+ip access-list extended ACLVLAN70
+deny tcp 162.38.0.0 0.0.0.255 host 33.0.0.1 eq www
+permit tcp 162.38.0.0 0.0.0.255 host 178.12.0.1 eq www
+deny ip 162.38.0.0 0.0.0.255 host 178.12.0.1
+deny ip 162.38.0.0 0.0.0.255 host 223.22.885.1
+permit ip any any
