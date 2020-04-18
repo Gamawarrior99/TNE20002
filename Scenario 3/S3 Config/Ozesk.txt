@@ -1,0 +1,53 @@
+ena
+conf t
+banner motd +
+**************************
+**       Gamaliel       **
+**      102117407       **
+**       Tue 5:30       **
+**************************
++
+hostname Ozesk
+line con 0
+logging synchronous
+exec-timeout 0 0
+exit
+no ip domain-lookup
+int g0/0/1.55
+description Management
+encapsulation dot1q 55
+ip address 183.14.3.97 255.255.255.224
+exit
+int g0/0/1.215
+description Management
+encapsulation dot1q 215
+ip address 183.14.0.1 255.255.254.0
+ip access-group ACLVLAN215 in
+exit
+int g0/0/1
+no shutdown
+exit
+int se0/1/1
+ip address 183.14.3.141 255.255.255.252
+bandwidth 64
+no shutdown
+exit
+int se0/1/0
+ip address 183.14.3.145 255.255.255.252
+bandwidth 128
+no shutdown
+exit
+router eigrp 10
+network 183.14.0.0 0.0.1.255
+network 183.14.2.0 0.0.0.255
+network 183.14.3.140 0.0.0.3
+network 183.14.3.144 0.0.0.3
+passive-interface g0/0/1.55
+passive-interface g0/0/1.215
+exit
+line vty 0 4
+password cisco
+login
+access-class telnet215 in
+exit
+

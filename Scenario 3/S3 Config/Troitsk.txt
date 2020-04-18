@@ -1,0 +1,53 @@
+ena
+conf t
+banner motd +
+**************************
+**       Gamaliel       **
+**      102117407       **
+**       Tue 5:30       **
+**************************
++
+hostname Troitsk
+line con 0
+logging synchronous
+exec-timeout 0 0
+exit
+no ip domain-lookup
+int g0/0/1.55
+description Management
+encapsulation dot1q 55
+ip address 183.14.3.129 255.255.255.248
+exit
+int g0/0/1.825
+description Shrub
+encapsulation dot1q 825
+ip address 183.14.2.1 255.255.255.0
+exit
+int g0/0/1.328
+description Tree
+encapsulation dot1q 328
+ip address 183.14.3.1 255.255.255.192
+exit
+int g0/0/1
+no shutdown
+exit
+int se0/1/1
+ip address 183.14.3.138 255.255.255.252
+bandwidth 512
+no shutdown
+exit
+int se0/1/0
+ip address 183.14.3.146 255.255.255.252
+bandwidth 128
+no shutdown
+exit
+router eigrp 10
+network 183.14.2.0 0.0.0.255
+network 183.14.3.0 0.0.0.63
+network 183.14.3.136 0.0.0.3
+network 183.14.3.144 0.0.0.3
+passive-interface g0/0/1.55
+passive-interface g0/0/1.825
+passive-interface g0/0/1.328
+exit
+

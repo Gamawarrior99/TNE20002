@@ -1,0 +1,4 @@
+no ip access-list standard telnet215
+ip access-list standard  telnet215
+permit 183.14.0.0 0.0.1.255
+deny any

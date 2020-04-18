@@ -1,0 +1,35 @@
+ena
+conf t
+banner motd +
+**************************
+**       Gamaliel       **
+**      102117407       **
+**       Tue 5:30       **
+**************************
++
+hostname ISP
+line con 0
+logging synchronous
+exec-timeout 0 0
+exit
+no ip domain-lookup
+int lo0
+ip address 154.88.0.1 255.255.0.0
+exit
+int lo1
+ip address 37.0.0.1 255.0.0.0
+exit
+int se0/1/0
+ip address 203.16.50.1 255.255.255.252
+no shutdown
+exit
+int g0/0/0
+ip address 182.61.0.1 255.255.0.0
+no shutdown
+exit
+int g0/0/1
+ip address 203.88.12.1 255.255.255.0
+no shutdown
+exit
+ip route 183.14.0.0 255.255.192.0 se0/1/0
+

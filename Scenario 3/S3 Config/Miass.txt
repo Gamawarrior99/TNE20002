@@ -1,0 +1,47 @@
+ena
+conf t
+banner motd +
+**************************
+**       Gamaliel       **
+**      102117407       **
+**       Tue 5:30       **
+**************************
++
+hostname Miass
+line con 0
+logging synchronous
+exec-timeout 0 0
+exit
+no ip domain-lookup
+int lo0
+ip address 183.14.3.65 255.255.255.224
+exit
+int se0/1/0
+ip address 183.14.3.142 255.255.255.252
+bandwidth 64
+no shutdown
+exit
+int se0/1/1
+ip address 183.14.3.137 255.255.255.252
+bandwidth 512
+no shutdown
+exit
+int se0/2/0
+ip address 203.16.50.2 255.255.255.252
+no shutdown
+exit
+ip route 0.0.0.0 0.0.0.0 se0/2/0
+router eigrp 10
+network 183.14.3.64 0.0.0.31
+network 183.14.3.136 0.0.0.3
+network 183.14.3.140 0.0.0.3
+redistribute static
+passive-interface lo0
+exit
+line vty 0 4
+password cisco
+login
+access-class telnet215D in
+exit
+
+

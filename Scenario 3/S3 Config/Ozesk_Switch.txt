@@ -1,0 +1,50 @@
+ena
+conf t
+banner motd +
+**************************
+**       Gamaliel       **
+**      102117407       **
+**       Tue 5:30       **
+**************************
++
+hostname Ozesk_Switch
+int range fa0/1-24, g0/1-2
+shutdown
+exit
+line con 0
+logging synchronous
+exec-timeout 0 0
+exit
+no ip domain-lookup
+ip default-gateway 183.14.3.97
+int g0/1
+switchport mode trunk
+no shutdown
+exit
+vlan 55
+name Management
+exit
+vlan 215
+name Flower
+exit
+int vlan 55
+ip address 183.14.3.98 255.255.255.224
+int vlan 215
+int vlan 1
+shutdown
+int range fa0/2-3
+switchport mode access
+switchport access vlan 215
+switchport port-security
+switchport port-security maximum 2
+switchport port-security mac-address sticky
+switchport port-security violation shutdown
+no shutdown
+exit
+enable password cisco
+line vty 0 15
+password cisco
+login
+transport input telnet
+exit
+

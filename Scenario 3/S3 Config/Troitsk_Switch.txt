@@ -1,0 +1,50 @@
+ena
+conf t
+banner motd +
+**************************
+**       Gamaliel       **
+**      102117407       **
+**       Tue 5:30       **
+**************************
++
+hostname Troitsk_Switch
+int range fa0/1-24, g0/1-2
+shutdown
+exit
+line con 0
+logging synchronous
+exec-timeout 0 0
+exit
+no ip domain-lookup
+ip default-gateway 183.14.3.129
+int g0/1
+switchport mode trunk
+no shutdown
+exit
+vlan 55
+name Management
+exit
+vlan 825
+name Shrub
+exit
+vlan 328
+name Tree
+exit
+int vlan 55
+ip address 183.14.3.130 255.255.255.248
+int vlan 825
+int vlan 328
+int vlan 1
+shutdown
+int fa0/24
+switchport mode access
+switchport access vlan 825
+no shutdown
+exit
+mac address-table static 0001.C72D.6EDE vlan 825 interface fa0/24
+enable password cisco
+line vty 0 15
+password cisco
+login
+transport input telnet
+exit
