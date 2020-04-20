@@ -39,7 +39,7 @@ no shutdown
 exit
 router eigrp 10
 network 183.14.0.0 0.0.1.255
-network 183.14.2.0 0.0.0.255
+network 183.14.3.96 0.0.0.31
 network 183.14.3.140 0.0.0.3
 network 183.14.3.144 0.0.0.3
 passive-interface g0/0/1.55
