@@ -1,0 +1,63 @@
+ena
+conf t
+banner motd +
+**************************
+**       Gamaliel       **
+**      102117407       **
+**       Tue 5:30       **
+**************************
++
+
+hostname Kyrta_Switch
+
+int range fa0/1-24, g0/1-2
+shutdown
+exit
+
+line con 0
+logging synchronous
+exec-timeout 0 0
+exit
+
+no ip domain-lookup
+
+ip default-gateway 163.31.5.193
+
+vlan 119
+name Tub
+exit
+
+vlan 154
+name Shower
+exit
+
+vlan 83
+name Management
+exit
+
+int vlan 83
+ip address 163.31.5.194 255.255.255.240
+exit
+
+int fa0/24
+switchport mode access 
+switchport access vlan 119
+no shutdown
+exit
+
+int g0/1
+switchport mode trunk
+no shutdown
+exit
+
+mac-address-table static 0007.EC57.55C9 vlan 119 int fa0/24
+
+enable password cisco
+
+line vty 0 15
+password cisco
+login
+transport input telnet
+exit
+
+end

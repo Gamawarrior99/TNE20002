@@ -1,0 +1,77 @@
+ena
+conf t
+banner motd +
+**************************
+**       Gamaliel       **
+**      102117407       **
+**       Tue 5:30       **
+**************************
++
+
+hostname Dutovo
+
+line con 0
+logging synchronous
+exec-timeout 0 0
+exit
+
+no ip domain-lookup
+
+no ip access-list extended ACLVLAN361
+ip access-list extended ACLVLAN361
+permit tcp 163.31.0.0 0.0.3.255 host 168.11.0.2 eq www
+deny IP 163.31.0.0 0.0.3.255 host 168.11.0.2
+permit ip any any
+exit
+
+no ip access-list standard ACLTELNET
+ip access-list standard  ACLTELNET
+permit 163.31.0.0 0.0.3.255
+deny any
+exit
+
+int g0/0/1.361
+description Sink
+encapsulation dot1q 361
+ip address 163.31.0.1 255.255.252.0
+ip access-group ACLVLAN361 in
+exit
+
+int g0/0/1.83
+description Management
+encapsulation dot1q 83
+ip address 163.31.5.161 255.255.255.224
+exit
+int g0/0/1
+no shutdown
+exit
+
+int se0/1/1
+ip address 163.31.5.213 255.255.255.252
+bandwidth 128
+no shutdown
+exit
+
+int se0/1/0
+ip address 163.31.5.217 255.255.255.252
+bandwidth 512
+no shutdown
+exit
+
+router ospf 1
+network 163.31.0.0 0.0.3.255 area 0
+network 163.31.5.160 0.0.0.31 area 0
+network 163.31.5.212 0.0.0.3 area 0
+network 163.31.5.216 0.0.0.3 area 0
+passive-interface g0/0/1.83
+passive-interface g0/0/1.361
+exit
+
+line vty 0 4
+password cisco
+login
+access-class ACLTELNET in
+exit
+
+enable secret cisco
+end

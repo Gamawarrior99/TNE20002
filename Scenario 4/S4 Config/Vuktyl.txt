@@ -1,0 +1,62 @@
+ena
+conf t
+banner motd +
+**************************
+**       Gamaliel       **
+**      102117407       **
+**       Tue 5:30       **
+**************************
++
+
+hostname Vuktyl
+
+line con 0
+logging synchronous
+exec-timeout 0 0
+exit
+
+no ip domain-lookup
+
+no ip access-list standard ACLTELNETD
+ip access-list standard  ACLTELNETD
+deny 163.31.0.0 0.0.3.255
+permit any
+exit
+
+int lo0
+ip address 163.31.5.129 255.255.255.224
+exit
+
+int se0/1/0
+ip address 163.31.5.214 255.255.255.252
+bandwidth 128
+no shutdown exit
+exit
+
+int se0/1/1
+ip address 163.31.5.209 255.255.255.252
+bandwidth 512
+no shutdown
+exit
+
+int se0/2/0
+ip address 201.8.6.2 255.255.255.252
+no shutdown
+exit
+
+router ospf 3
+network 163.31.5.212 0.0.0.3 area 0
+network 163.31.5.208 0.0.0.3 area 0
+default-information originate
+passive-interface lo0
+exit
+
+ip route 0.0.0.0 0.0.0.0 se0/2/0
+line vty 0 4
+password cisco
+login
+access-class ACLTELNETD in
+exit
+
+enable secret cisco
+end

@@ -1,0 +1,62 @@
+ena
+conf t
+banner motd +
+**************************
+**       Gamaliel       **
+**      102117407       **
+**       Tue 5:30       **
+**************************
++
+
+hostname Dutovo_Switch
+
+int range fa0/1-24, g0/1-2
+shutdown
+exit
+
+line con 0
+logging synchronous
+exec-timeout 0 0
+exit
+
+no ip domain-lookup
+
+ip default-gateway 163.31.5.161
+
+vlan 361
+name Sink
+exit
+
+vlan 83
+name Management
+exit
+
+int vlan 361
+exit
+
+int vlan 83
+ip address 163.31.5.162 255.255.255.224
+exit
+
+int range fa0/2-3
+switchport mode access 
+switchport access vlan 361
+switchport port-security
+switchport port-security maximum 2
+switchport port-security violation protect
+no shutdown
+exit
+
+int g0/1
+switchport mode trunk
+no shutdown
+exit
+
+enable password cisco
+
+line vty 0 15
+password cisco
+login
+transport input telnet
+exit
+end

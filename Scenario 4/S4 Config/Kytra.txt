@@ -1,0 +1,77 @@
+ena
+conf t
+banner motd +
+**************************
+**       Gamaliel       **
+**      102117407       **
+**       Tue 5:30       **
+**************************
++
+hostname Kytra
+
+line con 0
+logging synchronous
+exec-timeout 0 0
+exit
+
+no ip domain-lookup
+
+no ip access-list extended ACLVLAN119
+ip access-list extended ACLVLAN119
+deny icmp 163.31.4.0 0.0.0.255 163.31.0.0 0.0.3.255
+permit ip any any
+exit
+
+int g0/0/1.154
+description Shower
+encapsulation dot1q 154
+ip address 163.31.5.1 255.255.255.128
+exit
+
+int g0/0/1.119
+description Shower
+encapsulation dot1q 119
+ip address 163.31.4.1 255.255.255.0
+ip access-group ACLVLAN119 in
+exit
+
+int g0/0/1.83
+description Management
+encapsulation dot1q 83
+ip address 163.31.5.193 255.255.255.240
+exit
+
+int g0/0/1
+no shutdown
+exit
+
+int se0/1/0
+ip address 163.31.5.218 255.255.255.252
+bandwidth 512
+no shutdown
+exit
+
+int se0/1/1
+ip address 163.31.5.210 255.255.255.252
+bandwidth 512
+no shutdown
+exit
+
+router ospf 2
+network 163.31.4.0 0.0.0.255 area 0
+network 163.31.5.0 0.0.0.63 area 0
+network 163.31.5.192 0.0.0.15 area 0
+network 163.31.5.208 0.0.0.3 area 0
+network 163.31.5.216 0.0.0.3 area 0
+passive-interface g0/0/1.83
+passive-interface g0/0/1.119
+passive-interface g0/0/1.154
+exit
+
+line vty 0 4
+password cisco
+login
+exit
+
+enable secret cisco
+end

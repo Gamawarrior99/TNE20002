@@ -1,0 +1,4 @@
+no ip access-list extended ACLVLAN119
+ip access-list extended ACLVLAN119
+deny icmp 163.31.4.0 0.0.0.255 163.31.0.0 0.0.3.255
+permit ip any any
