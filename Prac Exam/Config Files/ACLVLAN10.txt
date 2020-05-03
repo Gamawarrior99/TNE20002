@@ -1,0 +1,5 @@
+no ip access-list extended ACLVLAN10
+ip access-list extended ACLVLAN10
+deny tcp 161.31.0.0 0.0.1.255 host 171.31.0.2 eq www
+permit ip 161.31.0.0 0.0.1.255 host 171.31.0.2
+permit ip any any

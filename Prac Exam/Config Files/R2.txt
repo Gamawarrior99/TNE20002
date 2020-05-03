@@ -1,0 +1,57 @@
+ena
+conf t
+banner motd +
+**************************
+**       Gamaliel       **
+**      102117407       **
+**       Tue 5:30       **
+**************************
++
+hostname R2
+
+line con 0
+logging synchronous
+exec-timeout 0 0
+exit
+
+no ip domain-lookup
+
+no ip access-list extended ACLVLAN20
+ip access-list extended ACLVLAN20
+permit tcp 161.31.2.0 0.0.0.255 host 181.31.0.2 eq www
+deny ip 161.31.2.0 0.0.0.255 host 181.31.0.2
+permit ip any any
+
+int g0/0/1.1
+description Management
+encapsulation dot1q 1
+ip address 161.31.3.97 255.255.255.224
+exit
+
+int g0/0/1.20
+description Hats
+encapsulation dot1q 20
+ip address 161.31.2.1 255.255.255.0
+ip access-group ACLVLAN20 in
+exit
+
+int g0/0/1
+no shutdown
+exit
+
+int se0/1/1
+ip address 161.31.3.134 255.255.255.252
+no shutdown
+exit
+
+int se0/1/0
+ip address 161.31.3.168 255.255.255.252
+no shutdown
+exit
+
+router rip
+version 2
+network 161.31.0.0
+passive-interface G0/0/1.1
+passive-interface G0/0/1.20
+exit

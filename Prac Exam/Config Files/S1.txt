@@ -1,0 +1,58 @@
+ena
+conf t
+banner motd +
+**************************
+**       Gamaliel       **
+**      102117407       **
+**       Tue 5:30       **
+**************************
++
+
+hostname S1
+
+int range fa0/1-24, g0/1-2
+shutdown
+exit
+
+line con 0
+logging synchronous
+exec-timeout 0 0
+exit
+
+no ip domain-lookup
+
+ip default-gateway 161.31.3.65
+
+vlan 10
+name Shirts
+exit
+
+int g0/1
+switchport mode trunk
+no shutdown
+exit
+
+int vlan 1
+ip address 161.31.3.66 255.255.255.224
+no shutdown
+exit
+
+int vlan 10
+exit
+
+int range fa0/2-3
+switchport mode access
+switchport access vlan 10
+switchport port-security
+switchport port-security maximum 4
+switchport port-security mac-address sticky
+switchport port-security violation shutdown
+no shutdown
+exit
+
+int fa0/9
+no shutdown
+exit
+
+end
+
