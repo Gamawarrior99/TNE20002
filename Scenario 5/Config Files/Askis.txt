@@ -1,0 +1,79 @@
+ena
+conf t
+banner motd +
+**************************
+**       Gamaliel       **
+**      102117407       **
+**       Tue 5:30       **
+**************************
++
+
+hostname Askis
+
+line con 0
+logging synchronous
+exec-timeout 0 0
+exit
+
+no ip domain-lookup
+
+no ip access-list standard ACLTELNETD
+ip access-list standard  ACLTELNETD
+deny 168.128.0.0 0.0.3.255
+permit any
+
+int lo0
+ip address 68.128.0.1 255.255.252.0
+exit
+
+int se0/1/0
+ip address 68.128.5.82 255.255.255.252
+no shutdown
+exit
+
+int se0/1/1
+ip address 137.68.12.2 255.255.255.252
+no shutdown
+exit
+
+router ospf 2
+network 68.128.5.0 0.0.0.31 area 0
+network 68.128.5.80 0.0.0.3 area 0
+default-information originate
+passive-interface lo0
+exit
+
+ip nat pool POOLVLAN318 132.14.0.0 132.14.0.84 netmask 255.255.255.0
+ip nat pool POOLVLAN435 132.14.0.85 132.14.0.170 netmask 255.255.255.0
+ip nat pool POOLVLAN1 132.14.0.170 132.14.0.255 netmask 255.255.255.0
+
+
+ip access-list extended ACLVLAN318 
+permit ip 68.128.0.0 0.0.3.255 any
+ip access-list extended ACLVLAN435 
+permit ip 68.128.5.32 0.0.0.31 any 
+ip access-list extended ACLVLAN1 
+permit ip 68.128.5.64 0.0.0.15 any
+exit
+
+ip nat inside source list ACLVLAN318 pool POOLVLAN318
+ip nat inside source list ACLVLAN435 pool POOLVLAN435
+ip nat inside source list ACLVLAN1 pool POOLVLAN1
+
+int se0/1/0
+ip nat inside
+exit
+
+int se0/1/1
+ip nat outside
+
+ip route 0.0.0.0 0.0.0.0 se0/1/1
+
+line vty 0 4
+password cisco
+login
+access-class ACLTELNETD in
+exit
+
+enable secret cisco
+end

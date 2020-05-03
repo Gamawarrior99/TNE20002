@@ -1,0 +1,7 @@
+no ip access-list extended ACLVLAN318
+ip access-list extended ACLVLAN318
+permit tcp 68.128.0.0 0.0.3.255 host 148.33.0.2 eq 80
+deny ip 68.128.0.0 0.0.3.255 host 148.33.0.2
+permit icmp 68.128.0.0 0.0.3.255 68.128.5.32 0.0.0.31 echo-reply
+deny icmp 68.128.0.0 0.0.3.255 68.128.5.32 0.0.0.31
+permit ip any any

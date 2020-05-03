@@ -1,0 +1,4 @@
+no ip access-list standard ACLTELNET
+ip access-list standard  ACLTELNET
+permit 168.128.0.0 0.0.3.255
+deny any

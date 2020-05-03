@@ -1,0 +1,79 @@
+ena
+conf t
+banner motd +
+**************************
+**       Gamaliel       **
+**      102117407       **
+**       Tue 5:30       **
+**************************
++
+
+hostname Abakan_Switch
+
+int range fa0/1-24, g0/1-2
+shutdown
+exit
+
+line con 0
+logging synchronous
+exec-timeout 0 0
+exit
+
+no ip domain-lookup
+
+ip default-gateway 68.128.5.65
+
+vlan 318
+name Blue
+exit
+
+vlan 615
+name Yellow
+exit
+
+vlan 435
+name Green
+exit
+
+int vlan 318
+exit
+int vlan 615
+exit
+int vlan 435
+exit
+int vlan 1
+ip address 68.128.5.66 255.255.255.240
+exit
+
+int range fa0/2-3
+switchport mode access 
+switchport access vlan 318
+switchport port-security
+switchport port-security maximum 4
+switchport port-security violation protect
+switchport port-security mac-address sticky
+no shutdown
+no shutdown
+exit
+
+int fa0/24
+switchport mode access 
+switchport access vlan 435
+switchport port-security
+switchport port-security mac-address sticky
+no shutdown
+exit
+
+int g0/1
+switchport mode trunk
+no shutdown
+exit
+
+enable password cisco
+
+line vty 0 15
+password cisco
+login
+transport input telnet
+exit
+end
