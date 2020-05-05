@@ -1,0 +1,49 @@
+ena
+conf t
+banner motd +
+**************************
+**       Gamaliel       **
+**      102117407       **
+**       Tue 5:30       **
+**************************
++
+
+hostname SwS2
+
+int range fa0/1-24, g0/1-2
+shutdown
+exit
+
+line con 0
+logging synchronous
+exec-timeout 0 0
+exit
+
+no ip domain-lookup
+
+ip default-gateway 158.25.3.97
+
+vlan 100
+name Sales
+exit
+
+int g0/1
+switchport mode trunk
+no shutdown
+exit
+
+int vlan 1
+ip address 158.25.3.98 255.255.255.224
+no shutdown
+exit
+
+int vlan 100
+exit
+
+int fa0/24
+switchport mode access
+switchport access vlan 100
+no shutdown
+exit
+end
+

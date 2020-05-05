@@ -1,0 +1,5 @@
+no ip access-list extended ACLVLAN100
+ip access-list extended ACLVLAN100
+permit tcp 158.25.2.0 0.0.0.255 host 186.25.0.2 eq www
+deny ip 158.25.2.0 0.0.0.255 host 186.25.0.2
+permit ip any any

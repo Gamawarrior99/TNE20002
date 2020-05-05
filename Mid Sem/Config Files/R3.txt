@@ -1,0 +1,48 @@
+ena
+conf t
+banner motd +
+**************************
+**       Gamaliel       **
+**      102117407       **
+**       Tue 5:30       **
+**************************
++
+
+hostname R3
+
+line con 0
+logging synchronous
+exec-timeout 0 0
+exit
+
+no ip domain-lookup
+
+int lo0
+ip address 158.25.3.1 255.255.255.192
+exit
+
+int se0/1/0
+ip address 158.25.3.130 255.255.255.252
+no shutdown exit
+exit
+
+int se0/1/1
+ip address 158.25.3.138 255.255.255.252
+no shutdown
+exit
+
+int se0/2/0
+ip address 205.25.25.2 255.255.255.252
+no shutdown
+exit
+
+router rip
+version 2
+network 158.25.0.0
+passive-interface lo0
+default-information originate
+exit
+
+ip route 0.0.0.0 0.0.0.0 se0/2/0
+
+end

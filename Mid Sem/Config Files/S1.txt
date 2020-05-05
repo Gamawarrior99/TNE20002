@@ -1,0 +1,59 @@
+ena
+conf t
+banner motd +
+**************************
+**       Gamaliel       **
+**      102117407       **
+**       Tue 5:30       **
+**************************
++
+
+hostname SwS1
+
+int range fa0/1-24, g0/1-2
+shutdown
+exit
+
+line con 0
+logging synchronous
+exec-timeout 0 0
+exit
+
+no ip domain-lookup
+
+ip default-gateway 158.25.3.65
+
+vlan 90
+name Accounts
+exit
+
+int g0/1
+switchport mode trunk
+no shutdown
+exit
+
+int vlan 1
+ip address 158.25.3.66 255.255.255.224
+no shutdown
+exit
+
+int vlan 90
+exit
+
+int range fa0/2-3
+switchport mode access
+switchport access vlan 90
+switchport port-security
+switchport port-security maximum 4
+switchport port-security mac-address sticky
+switchport port-security violation shutdown
+no shutdown
+exit
+
+int fa0/9
+switchport mode access
+no shutdown
+exit
+
+end
+
