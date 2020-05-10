@@ -1,0 +1,120 @@
+ ena
+conf t
+banner motd +
+*******************************************************
+*******************************************************
+**         You must have explicit, authorized        ** 
+**               permission to access                **
+**             or configure this device.             **
+**            Unauthorized attempts and              **
+**         actions to access or use this             **
+**            system may result in                   **
+**          civil and/or criminal penalties.         **
+**       All activities performed on this            **
+**           device are logged and monitored.        **
+*******************************************************
+*******************************************************
++
+hostname Kinamba
+
+line con 0
+logging synchronous
+exec-timeout 0 0
+exit
+
+no ip domain-lookup
+
+int g0/0/1.10
+description K-Leasing
+encapsulation dot1q 10
+ip address 68.32.6.1 255.255.255.128
+exit
+
+int g0/0/1.33
+description K-Management
+encapsulation dot1q 33
+ip address 68.32.7.1 255.255.255.240
+exit
+
+int g0/0/1.50
+description K-Security
+encapsulation dot1q 50
+ip address 68.32.7.65 255.255.255.240
+exit
+
+int g0/0/1.60
+description K-Technial_Support
+encapsulation dot1q 60
+ip address 68.32.7.81 255.255.255.240
+exit
+
+int g0/0/1.70
+description K-Vehicle_Support
+encapsulation dot1q 70
+ip address 68.32.7.97 255.255.255.240
+exit
+
+int g0/0/1.80
+description K-Printing
+encapsulation dot1q 80
+ip address 68.32.7.217 255.255.255.248
+exit
+
+int g0/0/1
+no shutdown
+exit
+
+int se0/1/0
+bandwidth 512
+ip address 68.32.6.246 255.255.255.240
+no shutdown
+exit
+
+router ospf 2
+network 68.32.7.0 0.0.0.15 area 0
+network 68.32.6.0 0.0.0.127 area 0
+network 68.32.7.64 0.0.0.15 area 0
+network 68.32.7.80 0.0.0.15 area 0
+network 68.32.7.96 0.0.0.15 area 0
+network 68.32.7.216 0.0.0.7 area 0
+passive-interface default
+no passive-interface S0/1/0
+exit
+
+service dhcp
+ip dhcp pool DHCP-VLAN-10
+network 68.32.6.0 255.255.255.128
+default-router 68.32.6.1
+exit
+
+ip dhcp excluded-address 68.32.6.1 68.32.6.3
+
+ip dhcp pool DHCP-VLAN-50
+network 68.32.7.64 255.255.255.240
+default-router 68.32.7.65
+exit
+
+ip dhcp excluded-address 68.32.7.65 68.32.7.67
+
+ip dhcp pool DHCP-VLAN-60
+network 68.32.7.80 255.255.255.240
+default-router 68.32.7.81
+exit
+
+ip dhcp excluded-address 68.32.7.81 68.32.7.83
+
+ip dhcp pool DHCP-VLAN-70
+network 68.32.7.96 255.255.255.240
+default-router 68.32.7.97
+exit
+
+ip dhcp excluded-address 68.32.7.97 68.32.7.99
+
+ip dhcp pool DHCP-VLAN-80
+network 68.32.7.216 255.255.255.248
+default-router 68.32.7.217
+exit
+
+ip dhcp excluded-address 68.32.7.217 68.32.7.219
+
+end

@@ -1,0 +1,154 @@
+ena
+conf t
+banner motd +
+*******************************************************
+*******************************************************
+**         You must have explicit, authorized        ** 
+**               permission to access                **
+**             or configure this device.             **
+**            Unauthorized attempts and              **
+**         actions to access or use this             **
+**            system may result in                   **
+**          civil and/or criminal penalties.         **
+**       All activities performed on this            **
+**           device are logged and monitored.        **
+*******************************************************
+*******************************************************
++
+hostname Nakuru
+
+line con 0
+logging synchronous
+exec-timeout 0 0
+exit
+
+no ip domain-lookup
+
+int g0/0/0.10
+description N-SF-Leasing
+encapsulation dot1q 10
+ip address 68.32.7.245 255.255.255.252
+exit
+
+int g0/0/0.20
+description N-SF-Marketing
+encapsulation dot1q 20
+ip address 68.32.7.253 255.255.255.252
+exit
+int g0/0/0.30
+description N--SF-Business
+encapsulation dot1q 30
+ip address 68.32.7.241 255.255.255.252
+exit
+
+int g0/0/0.33
+description N-SF-Management
+encapsulation dot1q 33
+ip address 68.32.7.249 255.255.255.252
+exit
+
+int g0/0/0.40
+description N-SF-Sales
+encapsulation dot1q 40
+ip address 68.32.8.1 255.255.255.252
+exit
+int g0/0/0.50
+description N-SF-Security
+encapsulation dot1q 50
+ip address 68.32.8.5 255.255.255.252
+exit
+
+int g0/0/0.60
+description N-SF-Technial_Support
+encapsulation dot1q 60
+ip address 68.32.8.9 255.255.255.252
+exit
+int g0/0/0.70
+description N-SF-Vehicle_Support
+encapsulation dot1q 70
+ip address 68.32.8.13 255.255.255.252
+exit
+
+int g0/0/0
+no shutdown
+exit
+
+int g0/0/1.10
+description N-Leasing
+encapsulation dot1q 10
+ip address  68.32.5.1 255.255.255.0
+exit
+
+int g0/0/1.20
+description N-Marketing
+encapsulation dot1q 20
+ip address 68.32.2.1 255.255.255.0
+exit
+int g0/0/1.30
+description N-Business
+encapsulation dot1q 30
+ip address 68.32.0.1 255.255.254.0
+exit
+
+int g0/0/1.33
+description N-Management
+encapsulation dot1q 33
+ip address 68.32.6.129 255.255.255.192
+exit
+int g0/0/1.50
+description N-Security
+encapsulation dot1q 50
+ip address 68.32.7.113 255.255.255.240
+exit
+
+int g0/0/1.60
+description N-Technial_Support
+encapsulation dot1q 60
+ip address 68.32.7.129 255.255.255.240
+exit
+
+int g0/0/1.70
+description N-Vehicle_Support
+encapsulation dot1q 70
+ip address 68.32.7.145 255.255.255.240
+exit
+
+int g0/0/1.80
+description N-Printing
+encapsulation dot1q 80
+ip address 68.32.7.225 255.255.255.248
+exit
+
+int g0/0/1
+no shutdown
+exit
+
+int se0/1/0
+bandwidth 512
+ip address 68.32.6.248 255.255.255.240
+no shutdown
+exit
+
+router ospf 1
+network 68.32.6.128 0.0.0.63 area 0
+network 68.32.5.0 0.0.0.255 area 0
+network 68.32.2.0 0.0.0.255 area 0
+network 68.32.0.0. 0.0.1.255 area 0
+network 68.32.7.112 0.0.0.15 area 0
+network 68.32.7.128 0.0.0.15 area 0
+network 68.32.7.144 0.0.0.15 area 0
+network 68.32.7.224 0.0.0.7 area 0
+network 68.32.7.248 0.0.0.3 area 0
+network 68.32.7.244 0.0.0.3 area 0
+network 68.32.7.252 0.0.0.3 area 0
+network 68.32.7.240 0.0.0.3 area 0
+network 68.32.8.0 0.0.0.3 area 0
+network 68.32.8.4 0.0.0.3 area 0
+network 68.32.8.8 0.0.0.3 area 0
+network 68.32.8.12 0.0.0.3 area 0
+passive-interface default
+no passive-interface S0/1/0
+exit
+
+end
+

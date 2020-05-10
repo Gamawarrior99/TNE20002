@@ -1,0 +1,78 @@
+ena
+conf t
+banner motd +
+*******************************************************
+*******************************************************
+**         You must have explicit, authorized        ** 
+**               permission to access                **
+**             or configure this device.             **
+**            Unauthorized attempts and              **
+**         actions to access or use this             **
+**            system may result in                   **
+**          civil and/or criminal penalties.         **
+**       All activities performed on this            **
+**           device are logged and monitored.        **
+*******************************************************
+*******************************************************
++
+hostname K-Dist-Switch
+int range fa0/1-24, g0/1-2
+shutdown
+exit
+
+line con 0
+logging synchronous
+exec-timeout 0 0
+exit
+
+no ip domain-lookup
+
+ip default-gateway 68.32.7.1
+
+vlan 10
+name N-leasing
+exit
+
+vlan 33
+name Management
+exit
+
+vlan 50
+name Security
+exit
+
+vlan 60
+name Technical_Support
+exit
+
+vlan 70
+name Vehicle_Support
+exit
+
+vlan 80
+name Printing
+exit
+
+int vlan 10
+int vlan 33
+ip address 68.32.7.2 255.255.255.240
+exit
+int vlan 50
+int vlan 60
+int vlan 70
+int vlan 80
+exit
+
+int g0/1
+description - Trunk to Kinamba
+switchport mode trunk
+no shutdown
+exit
+
+int g0/2
+description - Trunk to K-Access
+switchport mode trunk
+no shutdown
+exit
+
+end

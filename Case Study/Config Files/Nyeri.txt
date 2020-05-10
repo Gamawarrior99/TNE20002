@@ -1,0 +1,83 @@
+ena
+conf t
+banner motd +
+*******************************************************
+*******************************************************
+**         You must have explicit, authorized        ** 
+**               permission to access                **
+**             or configure this device.             **
+**            Unauthorized attempts and              **
+**         actions to access or use this             **
+**            system may result in                   **
+**          civil and/or criminal penalties.         **
+**       All activities performed on this            **
+**           device are logged and monitored.        **
+*******************************************************
+*******************************************************
++
+hostname Nyeri
+
+line con 0
+logging synchronous
+exec-timeout 0 0
+exit
+
+no ip domain-lookup
+
+int g0/0/1.33
+description NY-Management
+encapsulation dot1q 33
+ip address 68.32.6.193 255.255.255.224
+exit
+
+int g0/0/1.40
+description NY-Sales
+encapsulation dot1q 40
+ip address 68.32.3.1 255.255.255.0
+exit
+
+int g0/0/1.50
+description NY-Security
+encapsulation dot1q 50
+ip address 68.32.7.161 255.255.255.240
+exit
+
+int g0/0/1.60
+description NY-Technial_Support
+encapsulation dot1q 60
+ip address 68.32.7.177 255.255.255.240
+exit
+
+int g0/0/1.70
+description NY-Vehicle_Support
+encapsulation dot1q 70
+ip address 68.32.7.193 255.255.255.240
+exit
+int g0/0/1.80
+description NY-Printing
+encapsulation dot1q 80
+ip address 68.32.7.233 255.255.255.248
+exit
+
+int g0/0/1
+no shutdown
+exit
+
+int se0/1/0
+bandwidth 512
+ip address 68.32.6.244 255.255.255.240
+no shutdown
+exit
+
+router ospf 3
+network 68.32.6.192 0.0.0.31 area 0
+network 68.32.3.0 0.0.0.255 area 0
+network 68.32.7.160 0.0.0.15 area 0
+network 68.32.7.176 0.0.0.15 area 0
+network 68.32.7.192 0.0.0.15 area 0
+network 68.32.7.232 0.0.0.7 area 0
+passive-interface default
+no passive-interface S0/1/0
+exit
+
+end

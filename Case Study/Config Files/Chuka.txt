@@ -1,0 +1,187 @@
+ena
+conf t
+banner motd +
+*******************************************************
+*******************************************************
+**         You must have explicit, authorized        ** 
+**               permission to access                **
+**             or configure this device.             **
+**            Unauthorized attempts and              **
+**         actions to access or use this             **
+**            system may result in                   **
+**          civil and/or criminal penalties.         **
+**       All activities performed on this            **
+**           device are logged and monitored.        **
+*******************************************************
+*******************************************************
++
+hostname Chuka
+
+line con 0
+logging synchronous
+exec-timeout 0 0
+exit
+
+no ip domain-lookup
+
+int g0/0/1.33
+description C-Management
+encapsulation dot1q 33
+ip address 68.32.6.225 255.255.255.240
+ip nat in
+exit
+
+int g0/0/1.40
+description C-Sales
+encapsulation dot1q 40
+ip address 68.32.4.1 255.255.255.0
+ip nat in
+exit
+
+int g0/0/1.50
+description C-Security
+encapsulation dot1q 50
+ip address 68.32.7.17 255.255.255.240
+ip nat in
+exit
+
+int g0/0/1.60
+description C-Technial_Support
+encapsulation dot1q 60
+ip address 68.32.7.33 255.255.255.240
+ip nat in
+exit
+
+int g0/0/1.70
+description C-Vehicle_Support
+encapsulation dot1q 70
+ip address 68.32.7.49 255.255.255.240
+ip nat in
+exit
+
+int g0/0/1.80
+description C-Printing
+encapsulation dot1q 80
+ip address 68.32.7.209 255.255.255.248
+ip nat in
+exit
+
+int g0/0/1
+no shutdown
+exit
+
+int se0/1/0
+bandwidth 512
+ip address 68.32.6.24 255.255.255.240
+ip nat in
+no shutdown
+exit
+
+int se0/2/0
+ip address 207.3.2.2 255.255.255.252
+ip nat out
+no shutdown
+exit
+
+ip route 0.0.0.0 0.0.0.0 se0/2/0
+
+router ospf 4
+network 68.32.6.224 0.0.0.15 area 0
+network 68.32.4.0 0.0.0.255 area 0
+network 68.32.7.16 0.0.0.15 area 0
+network 68.32.7.32 0.0.0.15 area 0
+network 68.32.7.48 0.0.0.15 area 0
+network 68.32.7.208 0.0.0.7 area 0
+default-information originate
+passive-interface g0/0/1.33
+passive-interface g0/0/1.40
+passive-interface g0/0/1.50
+passive-interface g0/0/1.60
+passive-interface g0/0/1.70
+passive-interface g0/0/1.80
+exit
+
+ip nat pool POOLVLAN10 148.2.0.2 148.2.0.229 netmask 255.255.224.0
+ip nat pool POOLVLAN20 148.2.0.230 148.2.1.201 netmask 255.255.224.0
+ip nat pool POOLVLAN30 148.2.1.202 148.2.2.174 netmask 255.255.224.0
+ip nat pool POOLVLAN33 148.2.2.175 148.2.3.143 netmask 255.255.224.0
+ip nat pool POOLVLAN40 148.2.3.144 148.2.4.116 netmask 255.255.224.0
+ip nat pool POOLVLAN50 148.2.4.117 148.2.5.89 netmask 255.255.224.0
+ip nat pool POOLVLAN60 148.2.5.90 148.2.6.62 netmask 255.255.224.0
+ip nat pool POOLVLAN70 148.2.6.63 148.2.7.35 netmask 255.255.224.0
+ip nat pool POOLVLAN20 148.2.7.36 148.2.7.255 netmask 255.255.224.0
+
+ip access-list extended ACLVLAN10
+permit ip 68.32.5.0 0.0.0.255 any
+permit ip 68.32.7.244 0.0.0.3 any
+permit ip 68.32.6.0 0.0.0.127 any
+exit
+
+ip access-list extended ACLVLAN20
+permit ip 68.32.2.0 0.0.0.255 any
+permit ip 68.32.7.252 0.0.0.3 any
+exit
+
+ip access-list extended ACLVLAN30
+permit ip 68.32.0.0 0.0.1.255 any
+permit ip 68.32.7.240 0.0.0.3 any
+exit
+
+ip access-list extended ACLVLAN33
+permit ip 68.32.6.128 0.0.0.63 any
+permit ip 68.32.7.248 0.0.0.3 any
+permit ip 68.32.7.0 0.0.0.15 any
+permit ip 68.32.6.192 0.0.0.31 any
+permit ip 68.32.6.224 0.0.0.15 any
+exit
+
+ip access-list extended ACLVLAN40
+permit ip 68.32.8.0 0.0.0.3 any
+permit ip 68.32.3.0 0.0.0.255 any
+permit ip 68.32.4.0 0.0.0.255 any
+exit
+
+ip access-list extended ACLVLAN50
+permit ip 68.32.7.112 0.0.0.15 any
+permit ip 68.32.8.0 0.0.0.3 any
+permit ip 68.32.7.64 0.0.0.15 any 
+permit ip 68.32.7.160 0.0.0.15 any
+permit ip 68.32.7.16 0.0.0.15 any
+exit
+
+ip access-list extended ACLVLAN60
+permit ip 68.32.7.128 0.0.0.15 any
+permit ip 68.32.8.8 0.0.0.3 any
+permit ip 68.32.7.80 0.0.0.15 any
+permit ip 68.32.7.176 0.0.0.15 any
+permit ip 68.32.7.32 0.0.0.15 any
+exit
+
+ip access-list extended ACLVLAN70
+permit ip 68.32.7.144 0.0.0.15 any
+permit ip 68.32.8.12 0.0.0.3 any
+permit ip 68.32.7.96 0.0.0.15 any
+permit ip 68.32.7.192 0.0.0.15 any
+permit ip 68.32.7.48 0.0.0.15 any
+exit
+
+ip access-list extended ACLVLAN80
+permit ip 68.32.7.224 0.0.0.7 any
+permit ip 68.32.7.216 0.0.0.7 any
+permit ip 68.32.7.232 0.0.0.7 any
+permit ip 68.32.7.208 0.0.0.7 any
+exit
+
+
+ip nat inside source list ACLVLAN10 pool POOLVLAN10 overload
+ip nat inside source list ACLVLAN20 pool POOLVLAN20 overload
+ip nat inside source list ACLVLAN30 pool POOLVLAN30 overload
+ip nat inside source list ACLVLAN33 pool POOLVLAN33 overload
+ip nat inside source list ACLVLAN40 pool POOLVLAN40 overload
+ip nat inside source list ACLVLAN50 pool POOLVLAN50 overload
+ip nat inside source list ACLVLAN60 pool POOLVLAN60 overload
+ip nat inside source list ACLVLAN70 pool POOLVLAN70 overload
+ip nat inside source list ACLVLAN80 pool POOLVLAN80 overload
+
+
+end

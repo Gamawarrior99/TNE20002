@@ -1,0 +1,43 @@
+ena
+conf t
+banner motd +
+*******************************************************
+*******************************************************
+**         You must have explicit, authorized        ** 
+**               permission to access                **
+**             or configure this device.             **
+**            Unauthorized attempts and              **
+**         actions to access or use this             **
+**            system may result in                   **
+**          civil and/or criminal penalties.         **
+**       All activities performed on this            **
+**           device are logged and monitored.        **
+*******************************************************
+*******************************************************
++
+hostname ISP
+
+line con 0
+logging synchronous
+exec-timeout 0 0
+exit
+
+no ip domain-lookup
+
+int se0/1/0
+ip address 207.3.2.1 255.255.255.252
+ip nat out
+no shutdown
+exit
+
+int g0/0/0
+ip address 148.17.3.1 255.255.255.252
+ip nat in
+no shutdown
+exit
+
+ip nat inside source static 148.17.3.2 148.2.0.1
+
+ip route 148.2.0.0 255.255.248.0 se0/1/0
+
+end

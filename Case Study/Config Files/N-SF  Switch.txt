@@ -1,0 +1,119 @@
+ena
+conf t
+banner motd +
+*******************************************************
+*******************************************************
+**         You must have explicit, authorized        ** 
+**               permission to access                **
+**             or configure this device.             **
+**            Unauthorized attempts and              **
+**         actions to access or use this             **
+**            system may result in                   **
+**          civil and/or criminal penalties.         **
+**       All activities performed on this            **
+**           device are logged and monitored.        **
+*******************************************************
+*******************************************************
++
+hostname N-Server-Switch
+int range fa0/1-24, g0/1-2
+shutdown
+exit
+
+line con 0
+logging synchronous
+exec-timeout 0 0
+exit
+
+no ip domain-lookup
+ip default-gateway 68.32.7.249
+vlan 10
+name N-leasing
+exit
+
+vlan 20
+name N-Marketing
+exit
+vlan 30
+name N-Business
+exit
+vlan 33
+name Management
+exit
+vlan 40
+name Sales
+exit
+vlan 50
+name Security
+exit
+vlan 60
+name Technical_Support
+exit
+vlan 70
+name Vehicle_Support
+exit
+int vlan 10
+int vlan 20
+int vlan 30
+int vlan 33
+ip address 68.32.7.250 255.255.255.252
+int vlan 40
+int vlan 50
+int vlan 60
+int vlan 70
+exit
+
+int g0/1
+description - Trunk to Nakuru
+switchport mode trunk
+no shutdown
+exit
+
+int fa0/1
+description - N-SF-Leasing
+switchport mode access
+switchport access vlan 10
+no shutdown
+exit
+
+int fa0/4
+description - N-SF-Marketing
+switchport mode access
+switchport access vlan 20
+no shutdown
+exit
+int fa0/7
+description - N-SF-Business
+switchport mode access
+switchport access vlan 30
+no shutdown
+exit
+
+int fa0/10
+description - N-SF-Sales
+switchport mode access
+switchport access vlan 40
+no shutdown
+exit
+
+int fa0/13
+description - N-SF-Security
+switchport mode access
+switchport access vlan 50
+no shutdown
+exit
+
+int fa0/16
+description - N-SF-Technical-Support
+switchport mode access
+switchport access vlan 60
+no shutdown
+exit
+int fa0/19
+description - N-SF-Vehicle-Support
+switchport mode access
+switchport access vlan 70
+no shutdown
+exit
+
+end

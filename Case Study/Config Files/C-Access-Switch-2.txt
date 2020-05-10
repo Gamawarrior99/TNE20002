@@ -1,0 +1,129 @@
+ena
+conf t
+banner motd +
+*******************************************************
+*******************************************************
+**         You must have explicit, authorized        ** 
+**               permission to access                **
+**             or configure this device.             **
+**            Unauthorized attempts and              **
+**         actions to access or use this             **
+**            system may result in                   **
+**          civil and/or criminal penalties.         **
+**       All activities performed on this            **
+**           device are logged and monitored.        **
+*******************************************************
+*******************************************************
++
+hostname C-Access-Switch-2
+
+spanning-tree mode rapid-pvst
+
+int range fa0/1-24
+spanning-tree portfast
+spanning-tree bpduguard enable
+shutdown
+exit
+
+int range  g0/1-2
+shutdown
+exit
+
+line con 0
+logging synchronous
+exec-timeout 0 0
+exit
+
+no ip domain-lookup
+
+ip default-gateway 68.32.6.225
+
+vlan 33
+name Management
+exit
+vlan 40
+name sales
+exit
+vlan 50
+name Security
+exit
+vlan 60
+name Technical_Support
+exit
+vlan 70
+name Vehicle_Support
+exit
+vlan 80
+name Printing
+exit
+
+int vlan 33
+ip address 68.32.6.228 255.255.255.240
+exit
+int vlan 40
+int vlan 50
+int vlan 60
+int vlan 70
+int vlan 80
+exit
+
+int g0/1
+description - Trunk to C-Dist
+switchport mode trunk
+no shutdown
+exit
+
+int g0/2
+description - Trunk to C-Access-2
+switchport mode trunk
+no shutdown
+exit
+
+int range fa0/1-9
+description - C-Spare
+exit
+
+int range fa0/10-12
+description - C-Sales
+switchport mode access
+switchport access vlan 40
+exit
+
+int range fa0/13-15
+description - C-Security
+switchport mode access
+switchport access vlan 40
+exit
+
+int range fa0/16-18
+description - C-Technical-Support
+switchport mode access
+switchport access vlan 60
+exit
+
+int range fa0/19-21
+description - C-Vehicle-Support
+switchport mode access
+switchport access vlan 70
+exit
+
+int range fa0/22-24
+description - C-Print-Copy
+switchport mode access
+switchport access vlan 80
+exit
+
+int fa0/16
+no shutdown
+exit
+
+int fa0/19
+no shutdown
+exit
+
+int fa0/23
+no shutdown
+exit
+
+end
+

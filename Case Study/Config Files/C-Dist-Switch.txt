@@ -1,0 +1,82 @@
+ena
+conf t
+banner motd +
+*******************************************************
+*******************************************************
+**         You must have explicit, authorized        ** 
+**               permission to access                **
+**             or configure this device.             **
+**            Unauthorized attempts and              **
+**         actions to access or use this             **
+**            system may result in                   **
+**          civil and/or criminal penalties.         **
+**       All activities performed on this            **
+**           device are logged and monitored.        **
+*******************************************************
+*******************************************************
++
+hostname C-Dist-Switch
+int range fa0/1-24, g0/1-2
+shutdown
+exit
+
+line con 0
+logging synchronous
+exec-timeout 0 0
+exit
+
+no ip domain-lookup
+
+ip default-gateway 68.32.6.225
+
+vlan 33
+name Management
+exit
+vlan 40
+name sales
+exit
+vlan 50
+name Security
+exit
+vlan 60
+name Technical_Support
+exit
+vlan 70
+name Vehicle_Support
+exit
+vlan 80
+name Printing
+exit
+
+int vlan 33
+ip address 68.32.6.226 255.255.255.240
+exit
+int vlan 40
+int vlan 50
+int vlan 60
+int vlan 70
+int vlan 80
+exit
+
+int g0/1
+description - Trunk to Chuka
+switchport mode trunk
+no shutdown
+exit
+
+int g0/2
+description - Trunk to C-Access-1
+switchport mode trunk
+no shutdown
+exit
+
+int fa0/1
+description - Trunk to C-Access-2
+switchport mode trunk
+no shutdown
+exit
+
+spanning-tree mode rapid-pvst
+spanning-tree vlan 1, 33,40,50,60,70,80 root primary
+
+end
