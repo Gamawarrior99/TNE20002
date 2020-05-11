@@ -66,8 +66,17 @@ exit
 
 int se0/1/0
 bandwidth 512
-ip address 68.32.6.246 255.255.255.240
+encapsulation frame-relay
+no frame-relay inverse-arp
 no shutdown
+exit
+
+int Serial0/1/0 multipoint
+ip address 68.32.6.242 255.255.255.240
+frame-relay map ip 68.32.6.241 201 broadcast
+frame-relay map ip 68.32.6.243 105 broadcast
+frame-relay map ip 68.32.6.244 106 broadcast
+ip ospf network broadcast
 exit
 
 router ospf 2
@@ -77,6 +86,7 @@ network 68.32.7.64 0.0.0.15 area 0
 network 68.32.7.80 0.0.0.15 area 0
 network 68.32.7.96 0.0.0.15 area 0
 network 68.32.7.216 0.0.0.7 area 0
+network 68.32.6.240 0.0.0.15 area 0
 passive-interface default
 no passive-interface S0/1/0
 exit
