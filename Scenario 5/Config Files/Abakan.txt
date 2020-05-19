@@ -98,5 +98,4 @@ login
 access-class ACLTELNET in
 exit
 
-enable secret cisco
 end

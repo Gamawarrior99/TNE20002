@@ -35,14 +35,9 @@ vlan 435
 name Green
 exit
 
-int vlan 318
-exit
-int vlan 615
-exit
-int vlan 435
-exit
 int vlan 1
 ip address 68.128.5.66 255.255.255.240
+no shutdown
 exit
 
 int range fa0/2-3

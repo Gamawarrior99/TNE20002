@@ -45,7 +45,7 @@ exit
 
 ip nat pool POOLVLAN318 132.14.0.0 132.14.0.84 netmask 255.255.255.0
 ip nat pool POOLVLAN435 132.14.0.85 132.14.0.170 netmask 255.255.255.0
-ip nat pool POOLVLAN1 132.14.0.170 132.14.0.255 netmask 255.255.255.0
+ip nat pool POOLVLAN1 132.14.0.171 132.14.0.255 netmask 255.255.255.0
 
 
 ip access-list extended ACLVLAN318 
@@ -75,5 +75,4 @@ login
 access-class ACLTELNETD in
 exit
 
-enable secret cisco
 end
