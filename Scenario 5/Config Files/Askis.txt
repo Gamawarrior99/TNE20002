@@ -23,7 +23,7 @@ deny 168.128.0.0 0.0.3.255
 permit any
 
 int lo0
-ip address 68.128.0.1 255.255.252.0
+ip address 68.128.5.1 255.255.255.224
 exit
 
 int se0/1/0
@@ -32,7 +32,7 @@ no shutdown
 exit
 
 int se0/1/1
-ip address 137.68.12.2 255.255.255.252
+ip address 197.68.12.2 255.255.255.252
 no shutdown
 exit
 
