@@ -1,0 +1,26 @@
+!no market to leasing
+no ip access-list extended ACLVLAN20
+ip access-list extended ACLVLAN20
+!nakuru
+permit icmp 68.32.2.0 0.0.0.255 68.32.5.0 0.0.0.255 echo-reply
+deny ip 68.32.2.0 0.0.0.255 68.32.5.0 0.0.0.255
+!Server farm
+permit icmp 68.32.2.0 0.0.0.255 68.32.7.245 0.0.0.3 echo-reply
+deny ip 68.32.2.0 0.0.0.255 68.32.7.245 0.0.0.3
+permit ip any any
+
+!car denied access to all
+no ip access-list extended ACLVLAN70
+ip access-list extended ACLVLAN70
+!car allowed to return ping to any
+permit icmp 68.32.7.144 0.0.0.15 any echo-reply
+!web Accesss
+permit tcp  68.32.7.144 0.0.0.15 host 148.17.3.2 eq 80.
+deny ip any any
+
+no ip access-list extended ACLVLAN60
+ip access-list extended ACLVLAN60
+permit icmp 68.32.7.128 0.0.0.15 any echo-reply
+deny ip any 68.32.7.128 0.0.0.15
+permit tcp  68.32.7.144 0.0.0.15 host 148.17.3.2 eq 80.
+deny ip any any
