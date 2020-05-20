@@ -78,11 +78,12 @@ no shutdown
 exit
 
 int Serial0/1/0 multipoint
-ip address 68.32.6.243 255.255.255.240
+ip address 68.32.6.244 255.255.255.240
 frame-relay map ip 68.32.6.241 401 broadcast
 frame-relay map ip 68.32.6.242 601 broadcast
 frame-relay map ip 68.32.6.243 701 broadcast
 ip ospf network broadcast
+ip nat in
 exit
 
 int se0/2/0

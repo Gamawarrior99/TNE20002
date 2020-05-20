@@ -24,21 +24,104 @@ exit
 
 no ip domain-lookup
 
+no ip access-list extended ACLVLAN20
+ip access-list extended ACLVLAN20
+permit icmp 68.32.2.0 0.0.0.255 68.32.5.0 0.0.0.255 echo-reply
+deny ip 68.32.2.0 0.0.0.255 68.32.5.0 0.0.0.255
+permit icmp 68.32.2.0 0.0.0.255 68.32.7.245 0.0.0.3 echo-reply
+deny ip 68.32.2.0 0.0.0.255 68.32.7.245 0.0.0.3
+permit ip any any
+exit
+
+no ip access-list extended ACLVLAN70
+ip access-list extended ACLVLAN70
+permit icmp 68.32.7.144 0.0.0.15 any echo-reply
+permit ip 68.32.7.144 0.0.0.15 68.32.8.12 0.0.0.3
+permit ip 68.32.7.144 0.0.0.15 68.32.7.96 0.0.0.15
+permit ip 68.32.7.144 0.0.0.15 68.32.7.192 0.0.0.15
+permit ip 68.32.7.144 0.0.0.15 68.32.7.58 0.0.0.15
+permit tcp  68.32.7.144 0.0.0.15 host 148.17.3.2 eq 80
+deny ip any any
+
+no ip access-list extended ACLVLAN60
+ip access-list extended ACLVLAN60
+permit ip host 148.17.3.2 68.32.7.128 0.0.0.15
+permit ip 68.32.7.176 0.0.0.15 68.32.7.128 0.0.0.15
+permit ip 68.32.8.8 0.0.0.3 68.32.7.128 0.0.0.15
+permit ip 68.32.7.83 0.0.0.15 68.32.7.128 0.0.0.15
+permit ip 68.32.7.32 0.0.0.15 68.32.7.128 0.0.0.15
+permit icmp any 68.32.7.128 0.0.0.15 echo-reply
+deny ip any 68.32.7.128 0.0.0.15
+permit ip any any
+exit
+
+no ip access-list extended ACLVLAN10-SF
+ip access-list extended ACLVLAN10
+permit ip 68.32.8.12 0.0.0.3 68.32.5.0 0.0.0.255 
+permit ip 68.32.8.12 0.0.0.3 68.32.6.0 0.0.0.127
+deny ip any any
+
+
+no ip access-list extended ACLVLAN20-SF
+ip access-list extended ACLVLAN20
+permit ip 68.32.7.252 0.0.0.3 68.32.2.0 0.0.0.255
+deny ip any any
+
+
+no ip access-list extended ACLVLAN30-SF
+ip access-list extended ACLVLAN30
+permit ip 68.32.7.240 0.0.0.3 68.32.0.0 0.0.3.255
+deny ip any any
+
+
+no ip access-list extended ACLVLAN40-SF
+ip access-list extended ACLVLAN40
+permit ip 68.32.8.0 0.0.0.3 68.32.3.0 0.0.0.255
+permit ip 68.32.8.0 0.0.0.3 68.32.4.0 0.0.0.255
+deny ip any any
+
+no ip access-list extended ACLVLAN50-SF
+ip access-list extended ACLVLAN50
+permit ip 68.32.8.4 0.0.0.3 68.32.7.112 0.0.0.15
+permit ip 68.32.8.4 0.0.0.3 68.32.7.64 0.0.0.15
+permit ip 68.32.8.4 0.0.0.3 68.32.7.160 0.0.0.15
+permit ip 68.32.8.4 0.0.0.3 68.32.7.16 0.0.0.15
+deny ip any any
+
+no ip access-list extended ACLVLAN60-SF
+ip access-list extended ACLVLAN60
+permit ip 68.32.8.8 0.0.0.3 68.32.7.128 0.0.0.15
+permit ip 68.32.8.8 0.0.0.3 68.32.7.80 0.0.0.15
+permit ip 68.32.8.8 0.0.0.3 68.32.7.146 0.0.0.15
+permit ip 68.32.8.8 0.0.0.3 68.32.7.32 0.0.0.15 
+deny ip any any
+
+no ip access-list extended ACLVLAN70-SF
+ip access-list extended ACLVLAN70
+permit ip 68.32.8.12 0.0.0.3 68.32.7.144 0.0.0.15
+permit ip 68.32.8.12 0.0.0.3 68.32.7.96 0.0.0.15
+permit ip 68.32.8.12 0.0.0.3 68.32.7.192 0.0.0.15
+permit ip 68.32.8.12 0.0.0.3 68.32.7.48 0.0.0.15 
+deny ip any any
+
 int g0/0/0.10
 description N-SF-Leasing
 encapsulation dot1q 10
 ip address 68.32.7.245 255.255.255.252
+ip access-group ACLVLAN10-SF in
 exit
 
 int g0/0/0.20
 description N-SF-Marketing
 encapsulation dot1q 20
 ip address 68.32.7.253 255.255.255.252
+ip access-group ACLVLAN20-SF in
 exit
 int g0/0/0.30
 description N--SF-Business
 encapsulation dot1q 30
 ip address 68.32.7.241 255.255.255.252
+ip access-group ACLVLAN30-SF in
 exit
 
 int g0/0/0.33
@@ -51,22 +134,26 @@ int g0/0/0.40
 description N-SF-Sales
 encapsulation dot1q 40
 ip address 68.32.8.1 255.255.255.252
+ip access-group ACLVLAN40-SF in
 exit
 int g0/0/0.50
 description N-SF-Security
 encapsulation dot1q 50
 ip address 68.32.8.5 255.255.255.252
+ip access-group ACLVLAN50-SF in
 exit
 
 int g0/0/0.60
 description N-SF-Technial_Support
 encapsulation dot1q 60
 ip address 68.32.8.9 255.255.255.252
+ip access-group ACLVLAN60-SF in
 exit
 int g0/0/0.70
 description N-SF-Vehicle_Support
 encapsulation dot1q 70
 ip address 68.32.8.13 255.255.255.252
+ip access-group ACLVLAN70-SF in
 exit
 
 int g0/0/0
@@ -83,6 +170,7 @@ int g0/0/1.20
 description N-Marketing
 encapsulation dot1q 20
 ip address 68.32.2.1 255.255.255.0
+ip access-group ACLVLAN20 in
 exit
 int g0/0/1.30
 description N-Business
@@ -105,12 +193,14 @@ int g0/0/1.60
 description N-Technial_Support
 encapsulation dot1q 60
 ip address 68.32.7.129 255.255.255.240
+ip access-group ACLVLAN60 out
 exit
 
 int g0/0/1.70
 description N-Vehicle_Support
 encapsulation dot1q 70
 ip address 68.32.7.145 255.255.255.240
+ip access-group ACLVLAN70 in
 exit
 
 int g0/0/1.80

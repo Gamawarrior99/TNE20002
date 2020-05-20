@@ -36,8 +36,6 @@ ip nat in
 no shutdown
 exit
 
-ip nat inside source static 148.17.3.2 148.2.0.1
-
 ip route 148.2.0.0 255.255.248.0 se0/1/0
 
 end

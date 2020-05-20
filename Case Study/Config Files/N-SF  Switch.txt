@@ -52,15 +52,9 @@ exit
 vlan 70
 name Vehicle_Support
 exit
-int vlan 10
-int vlan 20
-int vlan 30
+
 int vlan 33
 ip address 68.32.7.250 255.255.255.252
-int vlan 40
-int vlan 50
-int vlan 60
-int vlan 70
 exit
 
 int g0/1

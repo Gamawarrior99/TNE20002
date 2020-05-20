@@ -47,13 +47,9 @@ exit
 vlan 80
 name Printing
 exit
+
 int vlan 33
 ip address 68.32.6.195 255.255.255.224
-int vlan 40
-int vlan 50
-int vlan 60
-int vlan 70
-int vlan 80
 exit
 
 int g0/1

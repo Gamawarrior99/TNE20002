@@ -51,12 +51,7 @@ exit
 int vlan 33
 ip address 68.32.6.194 255.255.255.224
 exit
-int vlan 40
-int vlan 50
-int vlan 60
-int vlan 70
-int vlan 80
-exit
+
 
 int g0/1
 description - Trunk to Nyeri
