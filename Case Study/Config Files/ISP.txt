@@ -24,15 +24,17 @@ exit
 
 no ip domain-lookup
 
+username Chuka password C_6uwtGF#arQbghe
+
 int se0/1/0
+encapsulation ppp
+ppp authentication chap
 ip address 207.3.2.1 255.255.255.252
-ip nat out
 no shutdown
 exit
 
 int g0/0/0
 ip address 148.17.3.1 255.255.255.252
-ip nat in
 no shutdown
 exit
 

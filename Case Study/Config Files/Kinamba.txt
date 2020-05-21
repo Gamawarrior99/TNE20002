@@ -76,6 +76,8 @@ ip address 68.32.6.242 255.255.255.240
 frame-relay map ip 68.32.6.241 201 broadcast
 frame-relay map ip 68.32.6.243 105 broadcast
 frame-relay map ip 68.32.6.244 106 broadcast
+ip ospf message-digest-key 99 md5 28E5PMHytR3hK
+ip ospf authentication message-digest
 ip ospf network broadcast
 exit
 

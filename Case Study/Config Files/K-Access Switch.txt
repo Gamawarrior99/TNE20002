@@ -17,6 +17,10 @@ banner motd +
 +
 hostname K-Access-Switch
 int range fa0/1-24, g0/1-2
+switchport port-security
+switchport port-security mac-address sticky
+switchport port-security  maximum 5
+switchport port-security violation restrict 
 shutdown
 exit
 
@@ -51,7 +55,6 @@ exit
 
 int vlan 33
 ip address 68.32.7.3 255.255.255.240
-
 exit
 
 int g0/2

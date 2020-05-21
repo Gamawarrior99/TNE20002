@@ -225,6 +225,8 @@ ip address 68.32.6.241 255.255.255.240
 frame-relay map ip 68.32.6.242 102 broadcast
 frame-relay map ip 68.32.6.243 103 broadcast
 frame-relay map ip 68.32.6.244 104 broadcast
+ip ospf message-digest-key 99 md5 28E5PMHytR3hK
+ip ospf authentication message-digest
 ip ospf network broadcast
 exit
 
@@ -249,6 +251,19 @@ network 68.32.6.240 0.0.0.15 area 0
 passive-interface default
 no passive-interface S0/1/0
 exit
+
+username BVRU_Maintenance privilege 15 secret Maint_Pass
+ip domain-name BVRU.com
+crypto key generate rsa  general-keys modulus 1024
+
+line vty 0 4
+transport input ssh
+login local
+exit
+
+ip ssh time-out 60
+ip ssh authentication-retries 2
+enable secret BVRU_Pass
 
 end
 
