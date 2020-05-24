@@ -50,78 +50,84 @@ permit ip 68.32.7.176 0.0.0.15 68.32.7.128 0.0.0.15
 permit ip 68.32.8.8 0.0.0.3 68.32.7.128 0.0.0.15
 permit ip 68.32.7.83 0.0.0.15 68.32.7.128 0.0.0.15
 permit ip 68.32.7.32 0.0.0.15 68.32.7.128 0.0.0.15
+permit ip 68.32.6.128 0.0.0.63 68.32.7.128 0.0.0.15
 permit icmp any 68.32.7.128 0.0.0.15 echo-reply
 deny ip any 68.32.7.128 0.0.0.15
 permit ip any any
 exit
 
-no ip access-list extended ACLVLAN10-SF
-ip access-list extended ACLVLAN10
+no ip access-list extended ACLVLAN10SF
+ip access-list extended ACLVLAN10SF
 permit ip 68.32.8.12 0.0.0.3 68.32.5.0 0.0.0.255 
 permit ip 68.32.8.12 0.0.0.3 68.32.6.0 0.0.0.127
 deny ip any any
 
 
-no ip access-list extended ACLVLAN20-SF
-ip access-list extended ACLVLAN20
+no ip access-list extended ACLVLAN20SF
+ip access-list extended ACLVLAN20SF
 permit ip 68.32.7.252 0.0.0.3 68.32.2.0 0.0.0.255
 deny ip any any
 
 
-no ip access-list extended ACLVLAN30-SF
-ip access-list extended ACLVLAN30
+no ip access-list extended ACLVLAN30SF
+ip access-list extended ACLVLAN30SF
 permit ip 68.32.7.240 0.0.0.3 68.32.0.0 0.0.3.255
 deny ip any any
 
 
-no ip access-list extended ACLVLAN40-SF
-ip access-list extended ACLVLAN40
+no ip access-list extended ACLVLAN40SF
+ip access-list extended ACLVLAN40SF
 permit ip 68.32.8.0 0.0.0.3 68.32.3.0 0.0.0.255
 permit ip 68.32.8.0 0.0.0.3 68.32.4.0 0.0.0.255
 deny ip any any
 
-no ip access-list extended ACLVLAN50-SF
-ip access-list extended ACLVLAN50
+no ip access-list extended ACLVLAN50SF
+ip access-list extended ACLVLAN50SF
 permit ip 68.32.8.4 0.0.0.3 68.32.7.112 0.0.0.15
 permit ip 68.32.8.4 0.0.0.3 68.32.7.64 0.0.0.15
 permit ip 68.32.8.4 0.0.0.3 68.32.7.160 0.0.0.15
 permit ip 68.32.8.4 0.0.0.3 68.32.7.16 0.0.0.15
 deny ip any any
 
-no ip access-list extended ACLVLAN60-SF
-ip access-list extended ACLVLAN60
+no ip access-list extended ACLVLAN60SF
+ip access-list extended ACLVLAN60SF
 permit ip 68.32.8.8 0.0.0.3 68.32.7.128 0.0.0.15
 permit ip 68.32.8.8 0.0.0.3 68.32.7.80 0.0.0.15
 permit ip 68.32.8.8 0.0.0.3 68.32.7.146 0.0.0.15
 permit ip 68.32.8.8 0.0.0.3 68.32.7.32 0.0.0.15 
 deny ip any any
 
-no ip access-list extended ACLVLAN70-SF
-ip access-list extended ACLVLAN70
+no ip access-list extended ACLVLAN70SF
+ip access-list extended ACLVLAN70SF
 permit ip 68.32.8.12 0.0.0.3 68.32.7.144 0.0.0.15
 permit ip 68.32.8.12 0.0.0.3 68.32.7.96 0.0.0.15
 permit ip 68.32.8.12 0.0.0.3 68.32.7.192 0.0.0.15
 permit ip 68.32.8.12 0.0.0.3 68.32.7.48 0.0.0.15 
 deny ip any any
 
+no ip access-list standard ACLSSH
+ip access-list standard  ACLSSH
+permit 68.32.7.128 0.0.0.15
+deny any
+
 int g0/0/0.10
 description N-SF-Leasing
 encapsulation dot1q 10
 ip address 68.32.7.245 255.255.255.252
-ip access-group ACLVLAN10-SF in
+ip access-group ACLVLAN10SF in
 exit
 
 int g0/0/0.20
 description N-SF-Marketing
 encapsulation dot1q 20
 ip address 68.32.7.253 255.255.255.252
-ip access-group ACLVLAN20-SF in
+ip access-group ACLVLAN20SF in
 exit
 int g0/0/0.30
 description N--SF-Business
 encapsulation dot1q 30
 ip address 68.32.7.241 255.255.255.252
-ip access-group ACLVLAN30-SF in
+ip access-group ACLVLAN30SF in
 exit
 
 int g0/0/0.33
@@ -134,26 +140,26 @@ int g0/0/0.40
 description N-SF-Sales
 encapsulation dot1q 40
 ip address 68.32.8.1 255.255.255.252
-ip access-group ACLVLAN40-SF in
+ip access-group ACLVLAN40SF in
 exit
 int g0/0/0.50
 description N-SF-Security
 encapsulation dot1q 50
 ip address 68.32.8.5 255.255.255.252
-ip access-group ACLVLAN50-SF in
+ip access-group ACLVLAN50SF in
 exit
 
 int g0/0/0.60
 description N-SF-Technial_Support
 encapsulation dot1q 60
 ip address 68.32.8.9 255.255.255.252
-ip access-group ACLVLAN60-SF in
+ip access-group ACLVLAN60SF in
 exit
 int g0/0/0.70
 description N-SF-Vehicle_Support
 encapsulation dot1q 70
 ip address 68.32.8.13 255.255.255.252
-ip access-group ACLVLAN70-SF in
+ip access-group ACLVLAN70SF in
 exit
 
 int g0/0/0
@@ -259,6 +265,7 @@ crypto key generate rsa  general-keys modulus 1024
 line vty 0 4
 transport input ssh
 login local
+ip access-class ACLSSH in
 exit
 
 ip ssh time-out 60

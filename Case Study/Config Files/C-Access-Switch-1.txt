@@ -86,7 +86,7 @@ exit
 int range fa0/13-15
 description - C-Security
 switchport mode access
-switchport access vlan 40
+switchport access vlan 50
 exit
 
 int range fa0/16-18

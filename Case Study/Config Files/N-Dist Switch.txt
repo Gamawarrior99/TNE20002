@@ -70,4 +70,17 @@ switchport mode trunk
 no shutdown
 exit
 
+username BVRU_Maintenance privilege 15 secret Maint_Pass
+ip domain-name BVRU.com
+crypto key generate rsa  general-keys modulus 1024
+
+line vty 0 15
+transport input ssh
+login local
+exit
+
+ip ssh time-out 60
+ip ssh authentication-retries 2
+enable secret BVRU_Pass
+
 end
