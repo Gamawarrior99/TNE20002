@@ -1,0 +1,78 @@
+ena
+conf t
+banner motd +
+**************************
+**       Gamaliel       **
+**      102117407       **
+**       Tue 5:30       **
+**************************
++
+
+hostname Penza_Switch
+
+int range fa0/1-24, g0/1-2
+shutdown
+exit
+
+line con 0
+logging synchronous
+exec-timeout 0 0
+exit
+
+no ip domain-lookup
+
+ip default-gateway 71.32.5.161
+
+vlan 315
+name Cows
+exit
+
+vlan 143
+name Sheep
+exit
+
+vlan 615
+name Goats
+exit
+
+vlan 33
+name Management
+exit
+
+int vlan 33
+ip address 71.32.5.162 255.255.255.248
+no shutdown
+exit
+
+int range fa0/2-3
+switchport mode access 
+switchport access vlan 315
+switchport port-security
+switchport port-security maximum 2
+switchport port-security violation shutdown
+switchport port-security mac-address sticky
+no shutdown
+exit
+
+int fa0/24
+switchport mode access 
+switchport access vlan 143
+no shutdown
+exit
+
+mac-address-table static 0060.3E48.13A5 vlan 143 int fa0/24
+
+int g0/1
+switchport mode trunk
+no shutdown
+exit
+
+enable password cisco
+
+line vty 0 15
+password cisco
+login
+transport input telnet
+exit
+end
+

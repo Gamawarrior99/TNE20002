@@ -1,0 +1,49 @@
+ena
+conf t
+banner motd +
+**************************
+**       Gamaliel       **
+**      102117407       **
+**       Tue 5:30       **
+**************************
++
+
+hostname ISP
+
+line con 0
+logging synchronous
+exec-timeout 0 0
+exit
+
+no ip domain-lookup
+
+int lo2
+ip address 162.55.0.1 255.255.0.0
+no shutdown
+exit
+
+int lo3
+ip address 201.12.80.1 255.255.255.0
+
+int g0/0/0
+ip address 154.33.0.1 255.255.0.0
+no shutdown
+exit
+
+int g0/0/1
+ip address 18.0.0.1 255.0.0.0
+no shutdown
+exit
+
+username ISP password Cisco
+
+int se0/1/1
+ip address 212.22.3.1 255.255.255.252
+encapsulation ppp
+ppp authentication chap
+no shutdown
+exit
+
+ip route 141.50.128.0 255.255.255.0 se0/1/1
+
+end
