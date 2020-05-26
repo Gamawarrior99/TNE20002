@@ -26,7 +26,7 @@ int lo3
 ip address 201.12.80.1 255.255.255.0
 
 int g0/0/0
-ip address 154.33.0.1 255.255.0.0
+ip address 154.3.0.1 255.255.0.0
 no shutdown
 exit
 
@@ -35,7 +35,7 @@ ip address 18.0.0.1 255.0.0.0
 no shutdown
 exit
 
-username ISP password Cisco
+username Tambov password Cisco
 
 int se0/1/1
 ip address 212.22.3.1 255.255.255.252

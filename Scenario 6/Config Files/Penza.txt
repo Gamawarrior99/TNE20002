@@ -17,12 +17,18 @@ exit
 
 no ip domain-lookup
 
+no ip access-list standard ACLVLAN315
 ip access-list extended ACLVLAN315
 permit tcp 71.32.0.0 0.0.3.255 host 154.3.0.2 eq www
-deny ip 71.32.0.0 0.0.3.255 host 71.32.4.0
+deny ip 71.32.0.0 0.0.3.255 host 154.3.0.2
 permit icmp 71.32.0.0 0.0.3.255 71.32.4.0 0.0.0.255 echo-reply
 deny icmp 71.32.0.0 0.0.3.255 71.32.4.0 0.0.0.255 
-permit ip any any 
+permit ip any any
+
+no ip access-list standard ACLVLAN143
+ip access-list extended ACLVLAN143
+deny ip 71.32.4.0 0.0.0.255 71.32.5.128 0.0.0.31
+permit ip any any
 
 no ip access-list standard ACLTELNET
 ip access-list standard ACLTELNET
@@ -42,6 +48,7 @@ description Sheep
 encapsulation dot1q 143
 ip address 71.32.4.1 255.255.255.0
 ip helper-address 71.32.5.169
+ip access-group ACLVLAN143 in
 exit
 
 int g0/0/1.615

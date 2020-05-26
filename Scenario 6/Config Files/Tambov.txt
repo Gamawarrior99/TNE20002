@@ -51,6 +51,7 @@ int Serial0/1/0.102 point-to-point
 ip address 71.32.5.169 255.255.255.252
 frame-relay interface-dlci 102
 ip ospf network broadcast
+ip nat in
 exit
 
 ip route 0.0.0.0 0.0.0.0 se0/1/1
@@ -63,8 +64,8 @@ passive-interface lo0
 exit
 
 ip nat pool POOLVLAN315 141.50.128.0 141.50.128.84 netmask 255.255.255.0
-ip nat pool POOLVLAN143 141.50.128.85 141.50.128.168 netmask 255.255.255.0
-ip nat pool POOLVLAN615 141.50.128.169 141.50.128.254 netmask 255.255.255.0
+ip nat pool POOLVLAN143 141.50.128.85 141.50.128.169 netmask 255.255.255.0
+ip nat pool POOLVLAN33 141.50.128.170 141.50.128.254 netmask 255.255.255.0
 
 ip access-list extended ACLVLAN315
 permit ip 71.32.0.0 0.0.3.255 any
@@ -72,16 +73,15 @@ exit
 
 ip access-list extended ACLVLAN143
 permit ip 71.32.4.0 0.0.0.255 any
-
 exit
 
-ip access-list extended ACLVLAN615
-permit ip 71.32.5.0 0.0.0.127 any
+ip access-list extended ACLVLAN33
+permit ip 71.32.5.160 0.0.0.7 any
 exit
 
 ip nat inside source list ACLVLAN315 pool POOLVLAN315 overload
 ip nat inside source list ACLVLAN143 pool POOLVLAN143 overload
-ip nat inside source list ACLVLAN615 pool POOLVLAN615 overload
+ip nat inside source list ACLVLAN33 pool POOLVLAN615 overload
 
 service dhcp
 
